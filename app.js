@@ -1,12 +1,21 @@
-const http = require("http");
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+
+const app = express();
 const port = process.env.PORT || 3000;
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader("Content-Type", "text/html");
-  res.end("<h1>Hello World</h1>");
+app.use(cors());
+
+// Configuring body parser middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.get("/send-message", (req, res) => {
+  res.status(200).send("test data");
+  // We will be coding here
 });
 
-server.listen(port, () => {
-  console.log(`Server running at port ` + port);
-});
+app.listen(port, () =>
+  console.log(`Hello world app listening on port ${port}!`)
+);
