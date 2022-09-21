@@ -4,6 +4,7 @@ const cors = require("cors");
 const nodemailer = require("nodemailer");
 const mongoose = require("mongoose");
 const contactus = require("./model/contactusModel");
+const timeout = require('connect-timeout')
 const uri = process.env.dbUri;
 // const client = new MongoClient(uri, { useNewUrlParser: true });
 const app = express();
@@ -11,7 +12,7 @@ const port = process.env.PORT || 3000;
 
 
 app.use(cors());
-
+app.use(timeout('200s'))
 // Configuring body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -28,6 +29,7 @@ mongoose
 // perform actions on the collection object
 
 app.post("/send-message", (req, res) => {
+  console.log("test data",req.body )
   contactus.insertMany(req.body, (err, msg) => {
     if (err) {
       res.status(500).send(err);
